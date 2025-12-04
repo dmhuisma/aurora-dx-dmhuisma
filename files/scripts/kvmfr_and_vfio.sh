@@ -14,6 +14,14 @@ COPR_RELEASE="${RELEASE}"
 
 wget "https://copr.fedorainfracloud.org/coprs/hikariknight/looking-glass-kvmfr/repo/fedora-${COPR_RELEASE}/hikariknight-looking-glass-kvmfr-fedora-${COPR_RELEASE}.repo" -O /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
 
+### Install akmods package first (provides akmodsbuild)
+rpm-ostree install akmods
+
+### Patch akmodsbuild to allow running as root in container builds
+# The akmod package's post-install script calls akmodsbuild, which refuses to run as root
+# In a container build environment, we need to bypass this check
+sed -i '/prevent root-usage/,/^[[:space:]]*fi/d' /usr/bin/akmodsbuild
+
 ### BUILD kvmfr (succeed or fail-fast with debug output)
 rpm-ostree install \
     "akmod-kvmfr-*.fc${RELEASE}.${ARCH}"
