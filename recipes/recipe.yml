@@ -6,8 +6,8 @@ name: aurora-dx-dmhuisma
 description: This is my personal OS image.
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+base-image: ghcr.io/ublue-os/aurora-dx
+image-version: 43 # latest is also supported if you want new updates ASAP
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
@@ -17,20 +17,23 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
+  - type: akmods
+    install:
+      - kvmfr
+
   - type: dnf
-    repos:
-      copr:
-        - atim/starship
+    # repos:
+    #   copr:
+    #     - atim/starship
     install:
       packages:
         - micro
-        - starship
-    remove:
-      packages:
+    # remove:
+    #   packages:
         # example: removing firefox (in favor of the flatpak)
         # "firefox" is the main package, "firefox-langpacks" is a dependency
-        - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+        # - firefox
+        # - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
   - type: default-flatpaks
     configurations:

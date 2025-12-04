@@ -1,8 +1,8 @@
 # aurora-dx-dmhuisma &nbsp; [![bluebuild build badge](https://github.com/dmhuisma/aurora-dx-dmhuisma/actions/workflows/build.yml/badge.svg)](https://github.com/dmhuisma/aurora-dx-dmhuisma/actions/workflows/build.yml)
 
-See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup instructions for setting up your own repository based on this template.
+My own Universal Blue image, based on aurora-dx. For now this just brings back vfio support and the kvmfr kernel module that was removed.
 
-After setup, it is recommended you update this README to describe your custom image.
+This does not bring back the setup scripts than were removed, it just configures the image.
 
 ## Installation
 
