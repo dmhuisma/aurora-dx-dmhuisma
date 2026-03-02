@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# image will be published to ghcr.io/<user>/<name>
+name: aurora-dx-dmhuisma-personal
+# description will be included in the image's metadata
+description: This is my personal OS image (NVIDIA variant, personal extensions).
+
+# the base image to build on top of (FROM) and the version tag to use
+base-image: ghcr.io/ublue-os/aurora-dx-nvidia-open
+image-version: 43 # latest is also supported if you want new updates ASAP
+
+# module configuration, executed in order
+modules:
+  - from-file: modules/common.yml
+  - from-file: modules/personal-dev.yml
+
+# ─── Things to be aware of ────────────────────────────────────────────────────
+#
+# ZEPHYR SDK
+#   Installed to /opt/zephyr-sdk with the arm-zephyr-eabi toolchain (Cortex-M).
+#   The arm-zephyr-eabi toolchain covers nRF52 and other Cortex-M targets.
+#   ZEPHYR_SDK_INSTALL_DIR is exported by /etc/profile.d/embedded-dev.sh.
+#   The nRF Connect SDK (NCS) workspace is NOT pre-initialised; run:
+#     west init -m https://github.com/nrfconnect/sdk-nrf ~/ncs
+#     cd ~/ncs && west update
+#
+# NRFUTIL
+#   nrfjprog is deprecated upstream. nrfutil + device plugin is the replacement.
+#   The device plugin is pre-installed to /opt/nrfutil (NRFUTIL_HOME).
+#   Usage: nrfutil device list / nrfutil device program ...
+#
+# JLINK
+#   Downloaded from SEGGER by automating the EULA acceptance via HTTP POST.
+#   If SEGGER changes their download server, the build will fail. In that case:
+#     1. Download JLink_Linux_x86_64.rpm manually from segger.com/downloads/jlink
+#     2. Place it in files/scripts/ and update the install script to install from file.
+#   Installed to /opt/SEGGER/JLink; added to PATH via /etc/profile.d/embedded-dev.sh.

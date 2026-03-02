@@ -1,0 +1,29 @@
+---
+modules:
+  - type: dnf
+    install:
+      packages:
+        # Build essentials not already in aurora-dx-nvidia-open
+        - gcc-c++
+        - clang
+        - cmake
+        - ninja-build
+        # Zephyr / embedded firmware build dependencies
+        - dtc
+        - gperf
+        - dfu-util
+        - python3-pip
+        - python3-devel
+        - arm-none-eabi-gcc
+        - arm-none-eabi-newlib
+        # USB access for programmers and debuggers (JLink, nRF, OpenOCD)
+        # libusb1-devel is the libusb 1.0 dev package in Fedora (libusb-devel does not exist)
+        - libusb1-devel
+        # OpenOCD for JTAG/SWD debugging (complement to JLink)
+        - openocd
+
+  - type: script
+    scripts:
+      - install-zephyr-sdk.sh
+      - install-nrfutil.sh
+      - install-jlink.sh

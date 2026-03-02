@@ -4,6 +4,12 @@ My own Universal Blue image, based on aurora-dx. For now this just brings back v
 
 This does not bring back the setup scripts than were removed, it just configures the image.
 
+ghcr.io/dmhuisma/aurora-dx-dmhuisma: Base image
+
+ghcr.io/dmhuisma/aurora-dx-dmhuisma-nvidia: Nvidia driver variant
+
+ghcr.io/dmhuisma/aurora-dx-dmhuisma-personal: My personal variant with extra stuff I need
+
 ## Installation
 
 > [!WARNING]  
