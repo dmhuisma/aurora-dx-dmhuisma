@@ -8,6 +8,7 @@ modules:
         - clang
         - cmake
         - ninja-build
+        - gtk3-devel
         # Zephyr / embedded firmware build dependencies
         - dtc
         - gperf
@@ -16,6 +17,7 @@ modules:
         - python3-devel
         - arm-none-eabi-gcc
         - arm-none-eabi-newlib
+        - systemd-devel
         # USB access for programmers and debuggers (JLink, nRF, OpenOCD)
         # libusb1-devel is the libusb 1.0 dev package in Fedora (libusb-devel does not exist)
         - libusb1-devel
