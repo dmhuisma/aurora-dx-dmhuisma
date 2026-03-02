@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "==> Fetching latest Zephyr SDK release..."
-ZEPHYR_SDK_VERSION=$(curl -sf https://api.github.com/repos/zephyrproject-rtos/sdk-ng/releases/latest \
-    | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))")
+ZEPHYR_SDK_VERSION="0.17.4"
 
 ZEPHYR_SDK_DIR="/opt/zephyr-sdk"
 ZEPHYR_BASE_URL="https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_VERSION}"
