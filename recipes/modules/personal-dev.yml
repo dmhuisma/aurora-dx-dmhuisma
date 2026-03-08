@@ -23,6 +23,7 @@ modules:
         # USB access for programmers and debuggers (JLink, nRF, OpenOCD)
         # libusb1-devel is the libusb 1.0 dev package in Fedora (libusb-devel does not exist)
         - libusb1-devel
+        - libusb-compat-0.1
         # OpenOCD for JTAG/SWD debugging (complement to JLink)
         - openocd
 
