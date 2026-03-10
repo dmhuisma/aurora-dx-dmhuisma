@@ -26,6 +26,8 @@ modules:
         - libusb-compat-0.1
         # OpenOCD for JTAG/SWD debugging (complement to JLink)
         - openocd
+        # Other
+        - python3-tkinter
 
   - type: script
     scripts:
