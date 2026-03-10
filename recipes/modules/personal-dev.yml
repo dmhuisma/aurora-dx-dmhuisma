@@ -27,7 +27,7 @@ modules:
         # OpenOCD for JTAG/SWD debugging (complement to JLink)
         - openocd
         # Other
-        - python3-tkinter
+        - python-tkinter
 
   - type: script
     scripts:
