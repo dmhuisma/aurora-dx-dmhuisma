@@ -9,27 +9,30 @@ set -oue pipefail
 
 ARCH="$(rpm -E '%_arch')"
 KERNEL="$(rpm -q "${KERNEL_NAME:-kernel}" --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')"
-RELEASE="$(rpm -E '%fedora')"
 
-wget "https://copr.fedorainfracloud.org/coprs/hikariknight/looking-glass-kvmfr/repo/fedora-${RELEASE}/hikariknight-looking-glass-kvmfr-fedora-${RELEASE}.repo" -O /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
+### Install kernel headers matching the target kernel
+rpm-ostree install "kernel-devel-${KERNEL}"
 
-### Install akmods package first (provides akmodsbuild)
-rpm-ostree install akmods
+### Build kvmfr kmod from upstream Looking Glass source
+git clone --depth=1 --branch B7 https://github.com/gnif/LookingGlass /tmp/looking-glass
+cd /tmp/looking-glass/module
+make -C "/usr/src/kernels/${KERNEL}" M="$(pwd)" modules
 
-### Patch akmodsbuild to allow running as root in container builds
-# The akmod package's post-install script calls akmodsbuild, which refuses to run as root
-# In a container build environment, we need to bypass this check
-sed -i '/prevent root-usage/,/^[[:space:]]*fi/d' /usr/bin/akmodsbuild
+### Install kmod
+KMOD_DIR="/usr/lib/modules/${KERNEL}/extra/kvmfr"
+mkdir -p "${KMOD_DIR}"
+install -m 0644 kvmfr.ko "${KMOD_DIR}/"
+xz "${KMOD_DIR}/kvmfr.ko"
+depmod -a "${KERNEL}"
 
-### BUILD kvmfr (succeed or fail-fast with debug output)
-rpm-ostree install akmod-kvmfr
-akmods --force --kernels "${KERNEL}" --kmod kvmfr
-if ! modinfo "/usr/lib/modules/${KERNEL}/extra/kvmfr/kvmfr.ko.xz" > /dev/null 2>&1; then
-    find /var/cache/akmods/kvmfr/ -name \*.log -print -exec cat {} \;
+### Verify
+if ! modinfo "${KMOD_DIR}/kvmfr.ko.xz" > /dev/null 2>&1; then
+    echo "kvmfr kmod verification failed"
     exit 1
 fi
 
-rm -f /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
+### Cleanup build artifacts
+rm -rf /tmp/looking-glass
 
 # enable vfio, largely from https://github.com/m2Giles/m2os/blob/main/build_files/vfio.sh
 
