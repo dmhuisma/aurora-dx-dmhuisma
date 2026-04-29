@@ -23,8 +23,7 @@ rpm-ostree install akmods
 sed -i '/prevent root-usage/,/^[[:space:]]*fi/d' /usr/bin/akmodsbuild
 
 ### BUILD kvmfr (succeed or fail-fast with debug output)
-rpm-ostree install \
-    "akmod-kvmfr-*.fc${RELEASE}.${ARCH}"
+rpm-ostree install akmod-kvmfr
 akmods --force --kernels "${KERNEL}" --kmod kvmfr
 modinfo "/usr/lib/modules/${KERNEL}/extra/kvmfr/kvmfr.ko.xz" > /dev/null \
 || (find /var/cache/akmods/kvmfr/ -name \*.log -print -exec cat {} \; && exit 1)
