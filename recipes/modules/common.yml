@@ -4,11 +4,6 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-  - type: containerfile
-    snippets:
-      - "COPY --from=ghcr.io/ublue-os/akmods:main-44 /rpms /tmp/akmods-rpms"
-      - "COPY --from=ghcr.io/ublue-os/akmods-extra:ogc-44 /rpms /tmp/akmods-rpms"
-
   - type: script
     scripts:
       - kvmfr_and_vfio.sh

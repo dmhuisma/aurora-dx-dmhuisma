@@ -7,14 +7,27 @@ set -oue pipefail
 
 # Install kvmfr kernel module
 
+ARCH="$(rpm -E '%_arch')"
+KERNEL="$(rpm -q "${KERNEL_NAME:-kernel}" --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')"
 RELEASE="$(rpm -E '%fedora')"
 
-### Add kvmfr COPR repo (needed for kmod-kvmfr dependency resolution)
-wget "https://copr.fedorainfracloud.org/coprs/hikariknight/looking-glass-kvmfr/repo/fedora-${RELEASE}/hikariknight-looking-glass-kvmfr-fedora-${RELEASE}.repo" \
-    -O /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
+wget "https://copr.fedorainfracloud.org/coprs/hikariknight/looking-glass-kvmfr/repo/fedora-${RELEASE}/hikariknight-looking-glass-kvmfr-fedora-${RELEASE}.repo" -O /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
 
-### Install pre-built kvmfr kmod RPM copied from ghcr.io/ublue-os/akmods-extra
-rpm-ostree install /tmp/akmods-rpms/kmods/*kvmfr*.rpm
+### Install akmods package first (provides akmodsbuild)
+rpm-ostree install akmods
+
+### Patch akmodsbuild to allow running as root in container builds
+# The akmod package's post-install script calls akmodsbuild, which refuses to run as root
+# In a container build environment, we need to bypass this check
+sed -i '/prevent root-usage/,/^[[:space:]]*fi/d' /usr/bin/akmodsbuild
+
+### BUILD kvmfr (succeed or fail-fast with debug output)
+rpm-ostree install akmod-kvmfr
+akmods --force --kernels "${KERNEL}" --kmod kvmfr
+if ! modinfo "/usr/lib/modules/${KERNEL}/extra/kvmfr/kvmfr.ko.xz" > /dev/null 2>&1; then
+    find /var/cache/akmods/kvmfr/ -name \*.log -print -exec cat {} \;
+    exit 1
+fi
 
 rm -f /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
 
