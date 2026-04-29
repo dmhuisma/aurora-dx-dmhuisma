@@ -9,9 +9,6 @@ set -oue pipefail
 
 RELEASE="$(rpm -E '%fedora')"
 
-### Enable ublue-os-akmods COPR (provides dependencies for pre-built kmod RPMs)
-sed -i 's@enabled=0@enabled=1@g' /etc/yum.repos.d/_copr_ublue-os-akmods.repo
-
 ### Add kvmfr COPR repo (needed for kmod-kvmfr dependency resolution)
 wget "https://copr.fedorainfracloud.org/coprs/hikariknight/looking-glass-kvmfr/repo/fedora-${RELEASE}/hikariknight-looking-glass-kvmfr-fedora-${RELEASE}.repo" \
     -O /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
