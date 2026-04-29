@@ -22,14 +22,10 @@ make -C "/usr/src/kernels/${KERNEL}" M="$(pwd)" modules
 KMOD_DIR="/usr/lib/modules/${KERNEL}/extra/kvmfr"
 mkdir -p "${KMOD_DIR}"
 install -m 0644 kvmfr.ko "${KMOD_DIR}/"
-xz "${KMOD_DIR}/kvmfr.ko"
 depmod -a "${KERNEL}"
 
 ### Verify
-if ! modinfo "${KMOD_DIR}/kvmfr.ko.xz" > /dev/null 2>&1; then
-    echo "kvmfr kmod verification failed"
-    exit 1
-fi
+modinfo "${KMOD_DIR}/kvmfr.ko" || { echo "kvmfr kmod verification failed"; exit 1; }
 
 ### Cleanup build artifacts
 rm -rf /tmp/looking-glass
@@ -42,6 +38,10 @@ EOF
 
 tee /usr/lib/modprobe.d/kvmfr.conf <<'EOF'
 options kvmfr static_size_mb=256
+EOF
+
+tee /usr/lib/modules-load.d/kvmfr.conf <<'EOF'
+kvmfr
 EOF
 
 tee /usr/lib/udev/rules.d/99-kvmfr.rules <<'EOF'
