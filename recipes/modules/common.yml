@@ -4,17 +4,14 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-  # - type: script
-  #   scripts:
-  #     - kvmfr_and_vfio.sh
+  - type: containerfile
+    snippets:
+      - "COPY --from=ghcr.io/ublue-os/akmods:main-44 /rpms /tmp/akmods-rpms"
+      - "COPY --from=ghcr.io/ublue-os/akmods-extra:main-44 /rpms /tmp/akmods-rpms"
 
-  - type: rpm-ostree
-    repos:
-      - https://copr.fedorainfracloud.org/coprs/hikariknight/looking-glass-kvmfr/repo/fedora-%OS_VERSION%/hikariknight-looking-glass-kvmfr-fedora-%OS_VERSION%.repo
-
-  - type: akmods
-    install:
-      - kvmfr
+  - type: script
+    scripts:
+      - kvmfr_and_vfio.sh
 
   - type: dnf
     # repos:
