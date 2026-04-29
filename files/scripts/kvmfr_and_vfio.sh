@@ -25,8 +25,10 @@ sed -i '/prevent root-usage/,/^[[:space:]]*fi/d' /usr/bin/akmodsbuild
 ### BUILD kvmfr (succeed or fail-fast with debug output)
 rpm-ostree install akmod-kvmfr
 akmods --force --kernels "${KERNEL}" --kmod kvmfr
-modinfo "/usr/lib/modules/${KERNEL}/extra/kvmfr/kvmfr.ko.xz" > /dev/null \
-|| (find /var/cache/akmods/kvmfr/ -name \*.log -print -exec cat {} \; && exit 1)
+if ! modinfo "/usr/lib/modules/${KERNEL}/extra/kvmfr/kvmfr.ko.xz" > /dev/null 2>&1; then
+    find /var/cache/akmods/kvmfr/ -name \*.log -print -exec cat {} \;
+    exit 1
+fi
 
 rm -f /etc/yum.repos.d/_copr_hikariknight-looking-glass-kvmfr.repo
 
