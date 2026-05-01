@@ -14,7 +14,7 @@ curl -L --progress-bar "${ZEPHYR_BASE_URL}/zephyr-sdk-${ZEPHYR_SDK_VERSION}_linu
 tar -xJf /tmp/zephyr-sdk-minimal.tar.xz --strip-components=1 -C "${ZEPHYR_SDK_DIR}"
 
 # ARM Cortex-M toolchain (arm-zephyr-eabi, covers nRF52 and other Cortex-M targets)
-curl -L --progress-bar "${ZEPHYR_BASE_URL}/toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz" \
+curl -L --progress-bar "${ZEPHYR_BASE_URL}/toolchain_gnu_linux-x86_64_arm-zephyr-eabi.tar.xz" \
     -o /tmp/zephyr-toolchain-arm.tar.xz
 tar -xJf /tmp/zephyr-toolchain-arm.tar.xz -C "${ZEPHYR_SDK_DIR}"
 
