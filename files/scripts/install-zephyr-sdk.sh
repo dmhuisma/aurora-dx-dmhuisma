@@ -9,13 +9,13 @@ ZEPHYR_BASE_URL="https://github.com/zephyrproject-rtos/sdk-ng/releases/download/
 echo "==> Installing Zephyr SDK ${ZEPHYR_SDK_VERSION}..."
 mkdir -p "${ZEPHYR_SDK_DIR}"
 
-wget -q "${ZEPHYR_BASE_URL}/zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-x86_64_minimal.tar.xz" \
-    -O /tmp/zephyr-sdk-minimal.tar.xz
+curl -L --progress-bar "${ZEPHYR_BASE_URL}/zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-x86_64_minimal.tar.xz" \
+    -o /tmp/zephyr-sdk-minimal.tar.xz
 tar -xJf /tmp/zephyr-sdk-minimal.tar.xz --strip-components=1 -C "${ZEPHYR_SDK_DIR}"
 
 # ARM Cortex-M toolchain (arm-zephyr-eabi, covers nRF52 and other Cortex-M targets)
-wget -q "${ZEPHYR_BASE_URL}/toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz" \
-    -O /tmp/zephyr-toolchain-arm.tar.xz
+curl -L --progress-bar "${ZEPHYR_BASE_URL}/toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz" \
+    -o /tmp/zephyr-toolchain-arm.tar.xz
 tar -xJf /tmp/zephyr-toolchain-arm.tar.xz -C "${ZEPHYR_SDK_DIR}"
 
 # Register Zephyr SDK CMake packages (required for west build to find the SDK)
