@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ZEPHYR_SDK_VERSION="0.17.4"
+ZEPHYR_SDK_VERSION="1.0.1"
 
 ZEPHYR_SDK_DIR="/opt/zephyr-sdk"
 ZEPHYR_BASE_URL="https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_VERSION}"

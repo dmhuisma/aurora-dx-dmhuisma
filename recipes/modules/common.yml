@@ -7,7 +7,6 @@ modules:
   - type: script
     scripts:
       - kvmfr_and_vfio.sh
-      - selinux-fixes.sh
 
   - type: dnf
     # repos:

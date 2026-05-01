@@ -15,8 +15,6 @@ modules:
         - dfu-util
         - python3-pip
         - python3-devel
-        - arm-none-eabi-gcc
-        - arm-none-eabi-newlib
         - systemd-devel
         - SDL2-devel
         - glibc-devel.i686
@@ -31,6 +29,7 @@ modules:
 
   - type: script
     scripts:
+      - install-arm-toolchain.sh
       - install-zephyr-sdk.sh
       - install-nrfutil.sh
       - install-jlink.sh
