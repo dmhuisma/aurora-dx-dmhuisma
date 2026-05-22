@@ -14,9 +14,11 @@ curl -L --progress-bar "${ZEPHYR_BASE_URL}/zephyr-sdk-${ZEPHYR_SDK_VERSION}_linu
 tar -xJf /tmp/zephyr-sdk-minimal.tar.xz --strip-components=1 -C "${ZEPHYR_SDK_DIR}"
 
 # ARM Cortex-M toolchain (arm-zephyr-eabi, covers nRF52 and other Cortex-M targets)
+# SDK 1.0+ expects GNU toolchains under ${ZEPHYR_SDK_DIR}/gnu/ so LLVM can live alongside.
+mkdir -p "${ZEPHYR_SDK_DIR}/gnu"
 curl -L --progress-bar "${ZEPHYR_BASE_URL}/toolchain_gnu_linux-x86_64_arm-zephyr-eabi.tar.xz" \
     -o /tmp/zephyr-toolchain-arm.tar.xz
-tar -xJf /tmp/zephyr-toolchain-arm.tar.xz -C "${ZEPHYR_SDK_DIR}"
+tar -xJf /tmp/zephyr-toolchain-arm.tar.xz -C "${ZEPHYR_SDK_DIR}/gnu"
 
 # Register Zephyr SDK CMake packages (required for west build to find the SDK)
 "${ZEPHYR_SDK_DIR}/setup.sh" -c
@@ -28,5 +30,5 @@ pip3 install --break-system-packages west pyelftools
 
 cat > /etc/profile.d/zephyr-sdk.sh << 'EOF'
 export ZEPHYR_SDK_INSTALL_DIR="/opt/zephyr-sdk"
-export PATH="/opt/zephyr-sdk/arm-zephyr-eabi/bin:${PATH}"
+export PATH="/opt/zephyr-sdk/gnu/arm-zephyr-eabi/bin:${PATH}"
 EOF
