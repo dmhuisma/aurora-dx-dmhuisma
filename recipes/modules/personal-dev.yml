@@ -1,8 +1,13 @@
 ---
 modules:
   - type: dnf
+    repos:
+      copr:
+        - scujas/plasma-applet-appgrid
     install:
       packages:
+        # KDE Plasma applets
+        - plasma-applet-appgrid
         # Build essentials not already in aurora-dx-nvidia-open
         - gcc-c++
         - clang
