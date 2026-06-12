@@ -3,10 +3,10 @@
 # image will be published to ghcr.io/<user>/<name>
 name: aurora-dx-dmhuisma-personal
 # description will be included in the image's metadata
-description: This is my personal OS image (NVIDIA variant, personal extensions).
+description: This is my personal OS image (personal extensions).
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/aurora-dx-nvidia-open
+base-image: ghcr.io/ublue-os/aurora-dx
 image-version: 44 # latest is also supported if you want new updates ASAP
 
 # module configuration, executed in order
