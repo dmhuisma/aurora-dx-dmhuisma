@@ -33,7 +33,7 @@ modules:
         - python-tkinter
         - spice-protocol
         - spice-server-devel
-        - nettle
+        - nettle-devel
         - hogweed
 
   - type: script
