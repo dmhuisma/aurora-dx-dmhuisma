@@ -34,6 +34,8 @@ modules:
         - spice-protocol
         - spice-server-devel
         - nettle-devel
+        - pipewire-devel
+        - libsamplerate-devel
 
   - type: script
     scripts:
