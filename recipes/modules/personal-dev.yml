@@ -34,7 +34,6 @@ modules:
         - spice-protocol
         - spice-server-devel
         - nettle-devel
-        - hogweed
 
   - type: script
     scripts:
