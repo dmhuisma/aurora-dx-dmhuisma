@@ -69,13 +69,22 @@ for g in /sys/kernel/iommu_groups/*/devices/*; do echo "group ${g#*groups/}"; do
 
 Run the shipped helper (adds `intel_iommu=on`/`amd_iommu=on`, `iommu=pt`,
 `rd.driver.pre=vfio_pci`, `vfio_pci.disable_vga=1`), then add your GPU's IDs — all
-functions, comma-separated:
+functions, comma-separated — and blacklist the host driver for that card (`nouveau`
+and/or `nvidia`):
 
 ```bash
 sudo /usr/libexec/vfio-kargs.sh
-sudo rpm-ostree kargs --append-if-missing=vfio_pci.ids=10de:xxxx,10de:yyyy
+sudo rpm-ostree kargs \
+  --append-if-missing=vfio_pci.ids=10de:xxxx,10de:yyyy \
+  --append-if-missing=modprobe.blacklist=nouveau
 systemctl reboot
 ```
+
+The blacklist is required, not optional: the base image ships a prebuilt initramfs
+without the vfio drivers, so the image instead loads `vfio-pci` at boot via
+`modules-load.d`, *after* udev has probed devices. The `vfio_pci.ids` argument tells it
+which devices to claim when it loads, but a display driver that isn't blacklisted would
+have grabbed the GPU first.
 
 After the reboot, verify vfio-pci owns the GPU:
 
@@ -83,8 +92,15 @@ After the reboot, verify vfio-pci owns the GPU:
 lspci -nnk -s 01:00.0   # "Kernel driver in use: vfio-pci"
 ```
 
-If a display driver still grabs it first, blacklist it as well, e.g.
-`sudo rpm-ostree kargs --append-if-missing=modprobe.blacklist=nouveau`.
+Two failure modes:
+
+- **Another driver in use** — the blacklist didn't cover it (e.g. `nvidia` on the
+  nvidia image variants); blacklist that driver too.
+- **No "Kernel driver in use" line at all** — the vfio-pci module never loaded. Images
+  built before the `modules-load.d/vfio-pci.conf` fix don't load it automatically; run
+  `sudo modprobe vfio-pci` to bind immediately, and
+  `echo vfio-pci | sudo tee /etc/modules-load.d/vfio-pci.conf` to persist until you
+  rebase onto a fixed build.
 
 Kernel arguments survive image updates; this is done once per machine.
 

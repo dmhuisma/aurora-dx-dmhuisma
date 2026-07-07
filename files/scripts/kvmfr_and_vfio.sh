@@ -44,6 +44,14 @@ tee /usr/lib/modules-load.d/kvmfr.conf <<'EOF'
 kvmfr
 EOF
 
+# The initramfs shipped by the base image is prebuilt, so the dracut conf above
+# does not get into it and rd.driver.pre=vfio_pci is a no-op. Load vfio-pci at
+# boot instead; it binds whatever the vfio_pci.ids karg lists. Requires the host
+# driver for the passthrough GPU to be blacklisted, since binding happens late.
+tee /usr/lib/modules-load.d/vfio-pci.conf <<'EOF'
+vfio-pci
+EOF
+
 tee /usr/lib/udev/rules.d/99-kvmfr.rules <<'EOF'
 SUBSYSTEM=="kvmfr", OWNER="root", GROUP="incus-admin", MODE="0660"
 EOF
