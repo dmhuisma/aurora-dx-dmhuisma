@@ -10,6 +10,10 @@ ghcr.io/dmhuisma/aurora-dx-dmhuisma-nvidia: Nvidia driver variant
 
 ghcr.io/dmhuisma/aurora-dx-dmhuisma-personal: My personal variant with extra stuff I need
 
+## GPU passthrough
+
+The image ships the kvmfr module and VFIO plumbing, but some setup is machine-local and must be done manually once. See [docs/gpu-passthrough-looking-glass.md](docs/gpu-passthrough-looking-glass.md) for the full setup guide.
+
 ## Installation
 
 > [!WARNING]  
