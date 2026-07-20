@@ -3,11 +3,10 @@ modules:
   - type: dnf
     repos:
       copr:
-        - scujas/plasma-applet-appgrid
+        - scottames/ghostty
     install:
       packages:
-        # KDE Plasma applets
-        - plasma-applet-appgrid
+        - ghostty
         # Build essentials not already in aurora-dx-nvidia-open
         - gcc-c++
         - clang
