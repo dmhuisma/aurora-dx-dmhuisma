@@ -42,3 +42,23 @@ modules:
       - install-zephyr-sdk.sh
       - install-nrfutil.sh
       - install-jlink.sh
+
+  # hyprland
+  - type: dnf
+    repos:
+      copr:
+        - lionheartp/Hyprland
+    install:
+      - noctalia-hyprland-meta
+      - hyprland-devel
+      - mesa-libgbm-devel
+      - xorg-x11-server-Xwayland-devel
+      - hyprpolkitagent
+      - hyprshot
+      - hyprqt6engine
+      - playerctl
+
+  # update noctalia from testing repo
+  - type: script
+    snippets:
+      - dnf -y upgrade --enablerepo=updates-testing noctalia
