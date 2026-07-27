@@ -49,14 +49,15 @@ modules:
       copr:
         - lionheartp/Hyprland
     install:
-      - noctalia-hyprland-meta
-      - hyprland-devel
-      - mesa-libgbm-devel
-      - xorg-x11-server-Xwayland-devel
-      - hyprpolkitagent
-      - hyprshot
-      - hyprqt6engine
-      - playerctl
+      packages:
+        - noctalia-hyprland-meta
+        - hyprland-devel
+        - mesa-libgbm-devel
+        - xorg-x11-server-Xwayland-devel
+        - hyprpolkitagent
+        - hyprshot
+        - hyprqt6engine
+        - playerctl
 
   # update noctalia from testing repo
   - type: script
