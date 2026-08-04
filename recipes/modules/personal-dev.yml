@@ -58,8 +58,9 @@ modules:
         - hyprshot
         - hyprqt6engine
         - playerctl
+        - udiskie
 
   # update noctalia from testing repo
-  - type: script
-    snippets:
-      - dnf -y upgrade --enablerepo=updates-testing noctalia
+  # - type: script
+  #   snippets:
+  #     - dnf -y upgrade --enablerepo=updates-testing noctalia
