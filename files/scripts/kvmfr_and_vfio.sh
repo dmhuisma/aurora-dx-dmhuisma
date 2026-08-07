@@ -11,7 +11,10 @@ ARCH="$(rpm -E '%_arch')"
 KERNEL="$(rpm -q "${KERNEL_NAME:-kernel}" --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')"
 
 ### Install kernel headers matching the target kernel
-rpm-ostree install "kernel-devel-${KERNEL}"
+# The base image ships kernel-devel already; only fetch it if that ever stops being true.
+if [[ ! -d "/usr/src/kernels/${KERNEL}" ]]; then
+    dnf -y install "kernel-devel-${KERNEL}"
+fi
 
 ### Build kvmfr kmod from upstream Looking Glass source
 git clone --depth=1 --branch B7 https://github.com/gnif/LookingGlass /tmp/looking-glass
