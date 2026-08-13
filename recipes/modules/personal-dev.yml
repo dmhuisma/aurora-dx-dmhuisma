@@ -60,6 +60,15 @@ modules:
         - playerctl
         - udiskie
 
+  # voxtype
+  - type: dnf
+    repos:
+      copr:
+        - scottames/voxtype
+    install:
+      packages:
+        - voxtype
+
   # update noctalia from testing repo
   # - type: script
   #   snippets:
