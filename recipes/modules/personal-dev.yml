@@ -35,6 +35,7 @@ modules:
         - nettle-devel
         - pipewire-devel
         - libsamplerate-devel
+        - sdcc
 
   - type: script
     scripts:
