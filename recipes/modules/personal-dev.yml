@@ -74,3 +74,13 @@ modules:
   # - type: script
   #   snippets:
   #     - dnf -y upgrade --enablerepo=updates-testing noctalia
+
+  # packages from terra
+  - type: dnf
+    repos:
+      files:
+        - https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo
+    install:
+      packages:
+        - terra-release
+        - zed
