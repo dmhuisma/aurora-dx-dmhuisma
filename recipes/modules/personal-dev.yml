@@ -36,6 +36,7 @@ modules:
         - pipewire-devel
         - libsamplerate-devel
         - sdcc
+        - fira-code-fonts
 
   - type: script
     scripts:
