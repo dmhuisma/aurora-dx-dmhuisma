@@ -62,6 +62,39 @@ modules:
         - playerctl
         - udiskie
 
+  # GTK / GNOME system applications for the Hyprland session
+  # (the KDE session keeps using Dolphin, Ark, etc.)
+  - type: dnf
+    install:
+      packages:
+        # File chooser portal (GTK file picker). Point Hyprland at it with
+        # ~/.config/xdg-desktop-portal/hyprland-portals.conf:
+        #   [preferred]
+        #   default=hyprland;gtk
+        #   org.freedesktop.impl.portal.FileChooser=gtk
+        - xdg-desktop-portal-gtk
+        # File management
+        - nautilus
+        - nautilus-extensions
+        - file-roller          # archive manager (integrates with nautilus)
+        - gvfs-mtp             # phones / MTP devices in nautilus
+        - gvfs-smb             # SMB network shares in nautilus
+        - gvfs-archive         # browse archives as folders
+        - gvfs-gphoto2         # cameras
+        # Viewers / utilities
+        - loupe                # image viewer
+        - papers               # document / PDF viewer
+        - gnome-text-editor
+        - gnome-calculator
+        - gnome-disk-utility
+        - baobab               # disk usage analyzer
+        - gnome-system-monitor
+        - gnome-font-viewer
+        - gnome-characters
+        # GTK theming outside of GNOME
+        - adw-gtk3-theme
+        - nwg-look
+
   # voxtype
   - type: dnf
     repos:
