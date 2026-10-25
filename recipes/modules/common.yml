@@ -7,6 +7,7 @@ modules:
   - type: script
     scripts:
       - kvmfr_and_vfio.sh
+      - keychron-battery.sh
 
   - type: dnf
     # repos:
