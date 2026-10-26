@@ -3,7 +3,7 @@ set -euo pipefail
 
 ZEPHYR_SDK_VERSION="1.0.1"
 
-ZEPHYR_SDK_DIR="/opt/zephyr-sdk"
+ZEPHYR_SDK_DIR="/opt/zephyr-sdk-${ZEPHYR_SDK_VERSION}"
 ZEPHYR_BASE_URL="https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_VERSION}"
 
 echo "==> Installing Zephyr SDK ${ZEPHYR_SDK_VERSION}..."
@@ -20,15 +20,20 @@ curl -L --progress-bar "${ZEPHYR_BASE_URL}/toolchain_gnu_linux-x86_64_arm-zephyr
     -o /tmp/zephyr-toolchain-arm.tar.xz
 tar -xJf /tmp/zephyr-toolchain-arm.tar.xz -C "${ZEPHYR_SDK_DIR}/gnu"
 
+# ESP32 Xtensa toolchain for Zephyr `esp32` board targets
+curl -L --progress-bar "${ZEPHYR_BASE_URL}/toolchain_gnu_linux-x86_64_xtensa-espressif_esp32_zephyr-elf.tar.xz" \
+    -o /tmp/zephyr-toolchain-xtensa-esp32.tar.xz
+tar -xJf /tmp/zephyr-toolchain-xtensa-esp32.tar.xz -C "${ZEPHYR_SDK_DIR}/gnu"
+
 # Register Zephyr SDK CMake packages (required for west build to find the SDK)
 "${ZEPHYR_SDK_DIR}/setup.sh" -c
 
-rm -f /tmp/zephyr-sdk-minimal.tar.xz /tmp/zephyr-toolchain-arm.tar.xz
+rm -f /tmp/zephyr-sdk-minimal.tar.xz /tmp/zephyr-toolchain-arm.tar.xz /tmp/zephyr-toolchain-xtensa-esp32.tar.xz
 
 echo "==> Installing west and Python build tools..."
 pip3 install --break-system-packages west pyelftools
 
-cat > /etc/profile.d/zephyr-sdk.sh << 'EOF'
-export ZEPHYR_SDK_INSTALL_DIR="/opt/zephyr-sdk"
-export PATH="/opt/zephyr-sdk/gnu/arm-zephyr-eabi/bin:${PATH}"
-EOF
+# cat > /etc/profile.d/zephyr-sdk.sh << 'EOF'
+# export ZEPHYR_SDK_INSTALL_DIR="/opt/zephyr-sdk"
+# export PATH="${ZEPHYR_SDK_DIR}/gnu/arm-zephyr-eabi/bin:${PATH}"
+# EOF

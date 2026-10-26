@@ -41,7 +41,8 @@ modules:
   - type: script
     scripts:
       - install-arm-toolchain.sh
-      - install-zephyr-sdk.sh
+      - install-zephyr-sdk-17.0.sh
+      - install-zephyr-sdk-1.0.1.sh
       - install-nrfutil.sh
       - install-jlink.sh
 
