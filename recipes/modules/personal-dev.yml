@@ -37,6 +37,10 @@ modules:
         - libsamplerate-devel
         - sdcc
         - fira-code-fonts
+        - wine
+        - wine-devel
+        - winetricks
+        - wine-mono
 
   - type: script
     scripts:
