@@ -41,6 +41,7 @@ modules:
         - wine-devel
         - winetricks
         - wine-mono
+        - papirus-icon-theme
 
   - type: script
     scripts:
