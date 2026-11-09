@@ -124,3 +124,12 @@ modules:
       packages:
         - terra-release
         - zed
+
+  # nautilus-my-computer
+  - type: dnf
+    repos:
+      copr:
+        - yannmasoch/nautilus-my-computer
+    install:
+      packages:
+        - nautilus-my-computer
